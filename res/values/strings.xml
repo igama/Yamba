@@ -5,7 +5,15 @@
     
     <string name="titleStatus">Status Activity!</string>
     <string name="hintText">Please enter your 140-character status</string>
-    
     <string name="buttonUpdate">Update</string>
+    
+        
+    <string name="titlePrefs">Preferences</string>        
+    <string name="titleUsername">Username</string>
+    <string name="summaryUsername">Insert Username</string>    
+    <string name="titlePassword">Password</string>
+    <string name="summaryPassword">Insert Password</string>    
+    <string name="rootAPI">Root API</string>    
+    <string name="summaryRootAPI">Insert Root API</string>
 
 </resources>

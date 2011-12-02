@@ -5,12 +5,19 @@ import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View; 
 import android.view.View.OnClickListener; 
 import android.widget.Button; 
@@ -27,12 +34,13 @@ import android.widget.Toast;
     }
 }*/
 
-	public class StatusActivity extends Activity implements OnClickListener, TextWatcher {
+	public class StatusActivity extends Activity implements OnClickListener, TextWatcher, OnSharedPreferenceChangeListener {
 		private static final String TAG = "StatusActivity"; 
 		EditText editText; 
 		Button updateButton;
 		Twitter twitter;
 		TextView textCount;
+		SharedPreferences prefs;
 
 		/** Called when the activity is first created. */ 
 		@Override 
@@ -54,16 +62,26 @@ import android.widget.Toast;
 			// Connect to Twitter
 			twitter = new Twitter("student", "password");
 			twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+			
+			// Ger preferences
+			prefs = PreferenceManager.getDefaultSharedPreferences(this); // 
+			prefs.registerOnSharedPreferenceChangeListener(this);
 		}
 		
 		
 		// Called when button is clicked
 		public void onClick(View v){
-			String status = editText.getText().toString(); 
-			new PostToTwitter().execute(status); // 
-			Log.d(TAG, "onClicked");
+			//String status = editText.getText().toString(); 
+			//new PostToTwitter().execute(status); // 
+			//Log.d(TAG, "onClicked");
+			// Update twitter status 
+			try {
+				getTwitter().setStatus(editText.getText().toString());
+				}
+			catch (TwitterException e) {
+				Log.d(TAG, "Twitter setStatus failed: " + e);
+				}
 		}
-		
 		
 		// Asynchronously posts to twitter 
 		class PostToTwitter extends AsyncTask<String, Integer, String> { //
@@ -114,6 +132,46 @@ import android.widget.Toast;
 	
 		public void onTextChanged(CharSequence s, int start, int before, int count) { // 
 		
+		}
+		
+		// Called first time user clicks on the menu button 
+		@Override 
+		public boolean onCreateOptionsMenu(Menu menu) {
+			MenuInflater inflater = getMenuInflater();	// 
+			inflater.inflate(R.menu.menu, menu);	// 
+			return true; //
+		}
+		
+		// Called when an options item is clicked 
+		@Override 
+		public boolean onOptionsItemSelected(MenuItem item) {
+			switch (item.getItemId()) {	// 
+			case R.id.itemPrefs:
+				startActivity(new Intent(this, PrefsActivity.class)); // 
+			break;
+			} 
+			return true;
+		}
+
+
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences arg0,
+				String arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		private Twitter getTwitter() { 
+			if (twitter == null) { 
+				String username, password, apiRoot; 
+				username = prefs.getString("username", "");	// 
+				password = prefs.getString("password", ""); 
+				apiRoot = prefs.getString("rootAPI", "http://yamba.marakana.com/api");
+				// Connect to twitter.com 
+				twitter = new Twitter(username, password);	// 
+				twitter.setAPIRootUrl(apiRoot); //
+			}
+			return twitter;
 		}
 		
 	}
