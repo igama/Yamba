@@ -155,9 +155,9 @@ import android.widget.Toast;
 
 
 		@Override
-		public void onSharedPreferenceChanged(SharedPreferences arg0,
-				String arg1) {
+		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			// TODO Auto-generated method stub
+			twitter = null;
 			
 		}
 		
