@@ -34,7 +34,7 @@ import android.widget.Toast;
     }
 }*/
 
-	public class StatusActivity extends Activity implements OnClickListener, TextWatcher, OnSharedPreferenceChangeListener {
+	public class StatusActivity extends Activity implements OnClickListener, TextWatcher {
 		private static final String TAG = "StatusActivity"; 
 		EditText editText; 
 		Button updateButton;
@@ -59,10 +59,6 @@ import android.widget.Toast;
 			
 			editText.addTextChangedListener(this); //attach TextWatcher to our editText field
 			
-			// Connect to Twitter
-			twitter = new Twitter("student", "password");
-			twitter.setAPIRootUrl("http://yamba.marakana.com/api");
-			
 			// Ger preferences
 			prefs = PreferenceManager.getDefaultSharedPreferences(this); // 
 			prefs.registerOnSharedPreferenceChangeListener(this);
@@ -71,12 +67,12 @@ import android.widget.Toast;
 		
 		// Called when button is clicked
 		public void onClick(View v){
-			//String status = editText.getText().toString(); 
-			//new PostToTwitter().execute(status); // 
+
 			//Log.d(TAG, "onClicked");
 			// Update twitter status 
 			try {
-				getTwitter().setStatus(editText.getText().toString());
+				String status = editText.getText().toString(); 
+				new PostToTwitter().execute(status); // 
 				}
 			catch (TwitterException e) {
 				Log.d(TAG, "Twitter setStatus failed: " + e);
@@ -90,11 +86,12 @@ import android.widget.Toast;
 			@Override
 			protected String doInBackground(String... statuses){
 				try { 
-					winterwell.jtwitter.Status status = twitter.updateStatus(statuses[0]); 
+					YambaApplication yamba = ((YambaApplication) getApplication()); // 
+					winterwell.jtwitter.Status status = yamba.getTwitter().updateStatus(statuses[0]); //
 					return status.text;
 				} catch (TwitterException e) {
-					Log.e(TAG, e.toString()); 
-					e.printStackTrace(); 
+					Log.e(TAG, "Failed to connect to twitter service", e); 
+					e.printStackTrace();  // To Be Removed
 					return "Failed to post";
 				}	
 			}
@@ -152,29 +149,8 @@ import android.widget.Toast;
 			} 
 			return true;
 		}
-
-
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-			// TODO Auto-generated method stub
-			twitter = null;
-			
-		}
 		
-		private Twitter getTwitter() { 
-			if (twitter == null) { 
-				String username, password, apiRoot; 
-				username = prefs.getString("username", "");	// 
-				password = prefs.getString("password", ""); 
-				apiRoot = prefs.getString("rootAPI", "http://yamba.marakana.com/api");
-				// Connect to twitter.com 
-				twitter = new Twitter(username, password);	// 
-				twitter.setAPIRootUrl(apiRoot); //
-			}
-			return twitter;
-		}
 		
-	}
-
+	} // end StatusActivity
 
 	
