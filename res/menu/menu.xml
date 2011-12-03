@@ -5,9 +5,9 @@
         android:title="@string/titlePrefs"></item>
 
 	<item android:title="@string/titleServiceStart" 
-	    android:id="@+id/itemServiceStart" ></item>	<!-- Start Service	-->
+	    android:id="@+id/itemServiceStart" ></item>
 	
 	<item android:title="@string/titleServiceStop" 
-	    android:id="@+id/itemServiceStop"></item> <!-- Stop Service	-->    
+	    android:id="@+id/itemServiceStop"></item>   
 
 </menu>

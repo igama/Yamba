@@ -15,5 +15,8 @@
     <string name="summaryPassword">Insert Password</string>    
     <string name="rootAPI">Root API</string>    
     <string name="summaryRootAPI">Insert Root API</string>
-
+    
+    <string name="titleServiceStop">Stop Service</string>
+    <string name="titleServiceStart">Start Service</string>
+        
 </resources>
