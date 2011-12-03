@@ -58,10 +58,7 @@ import android.widget.Toast;
 			textCount.setTextColor(Color.GREEN);
 			
 			editText.addTextChangedListener(this); //attach TextWatcher to our editText field
-			
-			// Ger preferences
-			prefs = PreferenceManager.getDefaultSharedPreferences(this); // 
-			prefs.registerOnSharedPreferenceChangeListener(this);
+		
 		}
 		
 		
@@ -145,7 +142,13 @@ import android.widget.Toast;
 			switch (item.getItemId()) {	// 
 			case R.id.itemPrefs:
 				startActivity(new Intent(this, PrefsActivity.class)); // 
-			break;
+				break;
+			case R.id.itemServiceStart:
+				startService(new Intent(this, UpdaterService.class));
+				break;
+			case R.id.itemServiceStop:
+				stopService(new Intent(this, UpdaterService.class));
+				break;
 			} 
 			return true;
 		}
