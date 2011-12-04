@@ -84,7 +84,7 @@ import android.widget.Toast;
 			protected String doInBackground(String... statuses){
 				try { 
 					YambaApplication yamba = ((YambaApplication) getApplication()); // 
-					winterwell.jtwitter.Status status = yamba.getTwitter().updateStatus(statuses[0]); //
+					Twitter.Status status = yamba.getTwitter().updateStatus(statuses[0]); //
 					return status.text;
 				} catch (TwitterException e) {
 					Log.e(TAG, "Failed to connect to twitter service", e); 
