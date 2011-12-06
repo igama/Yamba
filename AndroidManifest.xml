@@ -12,7 +12,7 @@
         android:name=".YambaApplication" >
         <activity
             android:label="@string/app_name"
-            android:name=".StatusActivity" >
+            android:name=".TimelineActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

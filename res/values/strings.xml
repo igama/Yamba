@@ -18,5 +18,7 @@
     
     <string name="titleServiceStop">Stop Service</string>
     <string name="titleServiceStart">Start Service</string>
+    
+    <string name="titleTimeline">Timeline</string>
         
 </resources>
